@@ -32,10 +32,7 @@ public class Restaurant {
 	@Column(name = "restaurantName",unique = true, nullable = false)
 	private String restaurantName;
 	
-	@NotEmpty(message = "Please provide a restaurant user name")
-	@Column(name = "restaurantUserName",unique = true, nullable = false)
-	private String restaurantUserName;
-	
+
 	@NotEmpty(message = "Please set a restaurant password")
 	@Column(name = "restaurantPassword", nullable = false)
 	private String restaurantPassword;
