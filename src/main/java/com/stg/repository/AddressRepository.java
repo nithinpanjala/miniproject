@@ -9,5 +9,6 @@ import com.stg.entity.User;
 
 public interface AddressRepository extends JpaRepository<Address, Integer> {
 	List<Address> findAllByUser(User user);
+	void deleteByUser(User user);
 	
 }

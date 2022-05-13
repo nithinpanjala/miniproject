@@ -5,22 +5,18 @@ import java.util.Set;
 
 import com.stg.entity.Address;
 import com.stg.entity.Dish;
+import com.stg.entity.Dish.FoodType;
 import com.stg.entity.Restaurant;
 
 public interface RestaurantServices {
 	
 	
-	
-	public Restaurant restaurantLogin(int RestaurantId, String RestaurantPassword);
 
-	public Restaurant restaurantSignUp(int restaurantId, String restaurantName, String restaurantPassword); // create
-
-	public Restaurant updateRestaurant(Restaurant restaurant); // update
-
-	public Restaurant readRestaurant(int restaurantId, String restaurantPassword); // read
+	public Restaurant restaurantSignUp(int restaurantId, String restaurantName); // create
+	public Restaurant readRestaurant(int restaurantId); // read
 	public List<Restaurant> getAllRestaurants(); 	// read all restaurants
-
-	public String deleteRestaurant(int restaurantId,  String restaurantPassword); // delete
+	public Restaurant updateRestaurant(Restaurant restaurant); // update
+	public String deleteRestaurant(int restaurantId); // delete
 
 	
 	
@@ -28,7 +24,7 @@ public interface RestaurantServices {
 	public List<Dish> addDishes(Dish dish) ;
 
 	public Dish UpdateDish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable,
-			Boolean vegeterianType, int restaurantId);
+			FoodType vegeterianType, int restaurantId);
 
 	public Dish createDish(Dish dish);
 

@@ -2,6 +2,8 @@ package com.stg.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,16 +42,24 @@ public class UserController {
 	 */
 	
 	@PostMapping(value = "/createUser/{user}")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 
 		return new ResponseEntity<User>(userServices.userSignUp(user), HttpStatus.ACCEPTED);
 
 	}
 
 	@PostMapping(value = "/addAddress/{address}")
-	public ResponseEntity<User> addAddress(@RequestBody Address address) {
+	public ResponseEntity<User> addAddress(@Valid @RequestBody Address address) {
 
 		return new ResponseEntity<User>(userServices.addAddress(address), HttpStatus.ACCEPTED);
+
+	}
+	@PostMapping(value = "/addUserAddress")
+	public ResponseEntity<User> addUserAddress( @RequestParam String houseNumber, @RequestParam String addressLane1,@RequestParam String addressLane2, @RequestParam String landmark,
+			 @RequestParam int pincode, @RequestParam String district, @RequestParam String state, @RequestParam long userId) {
+
+		return new ResponseEntity<User>(userServices.addUserAddress(   houseNumber,  addressLane1,  addressLane2,  landmark,
+				 pincode,  district,  state,  userId), HttpStatus.ACCEPTED);
 
 	}
 
@@ -60,14 +70,14 @@ public class UserController {
 	 */
 
 	@GetMapping(value = "/getUser/{userId}/{userPassword}")
-	public ResponseEntity<User> readUser(@PathVariable("userId") long userId,
+	public ResponseEntity<User> readUser(@Valid @PathVariable("userId") long userId,
 			@PathVariable("userPassword") String userPassword) {
 		return new ResponseEntity<User>(userServices.readUser(userId, userPassword), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/getUser/{userName}/{userPassword}")
-	public ResponseEntity<User> readUserByUserNameAndPassword(@PathVariable("userName") String userName,
-			@PathVariable("userPassword") String userPassword) {
+	@GetMapping(value = "/readUserByUserNameAndPassword/{userName}/{userPassword}")
+	public ResponseEntity<User> readUserByUserNameAndPassword(@Valid @PathVariable("userName") String userName,
+			@Valid @PathVariable("userPassword") String userPassword) {
 		return new ResponseEntity<User>(userServices.readUserByUserNameAndPassword(userName, userPassword), HttpStatus.OK);
 
 	}
@@ -78,7 +88,7 @@ public class UserController {
 
 	}
 	@GetMapping(value = "/getAllAddress/{userId}")
-	public ResponseEntity<List<Address>> getAllAddress(@PathVariable("userId") long userId) {
+	public ResponseEntity<List<Address>> getAllAddress(@Valid @PathVariable("userId") long userId) {
 
 		return new ResponseEntity<List<Address>>(userServices.getAllAddress(userId), HttpStatus.ACCEPTED);
 
@@ -93,23 +103,23 @@ public class UserController {
 	
 
 	@DeleteMapping(value = "/deleteUser/{userId}/{userPassword}")
-	public ResponseEntity<String> deleteByUserIdAndUserPassword(@PathVariable("userId") long userId, @PathVariable("userPassword") String userPassword) {
+	public ResponseEntity<String> deleteByUserIdAndUserPassword(@Valid @PathVariable("userId") long userId,@Valid @PathVariable("userPassword") String userPassword) {
 		return new ResponseEntity<String>(userServices.deleteByUserIdAndUserPassword(userId, userPassword), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/deleteByUserNameAndUserPassword/{userName}/{userPassword}")
-	public ResponseEntity<String> deleteByUserName(@PathVariable("userName") String userName,
-			@PathVariable("userPassword") String userPassword) {
+	public ResponseEntity<String> deleteByUserName(@Valid @PathVariable("userName") String userName,
+			@Valid @PathVariable("userPassword") String userPassword) {
 		return new ResponseEntity<String> ( userServices.deleteByUserNameAndUserPassword(userName, userPassword), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/deleteAddress/{address}")
-	public ResponseEntity<String> deleteAddress(@PathVariable("address") Address address) {
-		return new ResponseEntity<String> ( userServices.deleteAddress(address), HttpStatus.OK);
+	@DeleteMapping(value = "/deleteAddressByUserId/{userId}/{userPassword}")
+	public ResponseEntity<String> deleteAddressByUserId(@Valid @PathVariable long userId ,@Valid @PathVariable("userPassword") String userPassword) {
+		return new ResponseEntity<String> ( userServices.deleteAddressByUserId(userId, userPassword), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/deleteAddressByID/{addressId}")
-	public ResponseEntity<String> deleteAddressByID(@PathVariable("addressId") int addressId) {
+	public ResponseEntity<String> deleteAddressByID(@Valid @PathVariable("addressId") int addressId) {
 		return new ResponseEntity<String> ( userServices.deleteAddressByID(addressId), HttpStatus.OK);
 	}
 	
@@ -123,46 +133,46 @@ public class UserController {
 
 
 	@PutMapping(value = "/updateUser/{user}")
-	public  ResponseEntity<User> updateUser(@RequestBody User user) {
+	public  ResponseEntity<User> updateUser(@Valid @RequestBody User user) {
 		return new ResponseEntity<User>(userServices.updateUser(user), HttpStatus.ACCEPTED);
 
 	}
 	
 	@PutMapping(value = "/updateUserPassword")
-	public ResponseEntity<User> updateUserPassword(@RequestParam long userId, @RequestParam String userPassword,
-			@RequestParam String newUserPassword) {
+	public ResponseEntity<User> updateUserPassword(@Valid @RequestParam long userId,@Valid  @RequestParam String userPassword,
+			@Valid @RequestParam String newUserPassword) {
 		return new ResponseEntity<User>(userServices.updateUserPassword(userId, userPassword, newUserPassword), HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping(value = "/updateUsermobile")
-	public ResponseEntity<User> updateUsermobile(@RequestParam String userName, @RequestParam String userPassword,
-			@RequestParam String newUsermobile) {
+	public ResponseEntity<User> updateUsermobile(@Valid @RequestParam String userName,@Valid  @RequestParam String userPassword,
+			@Valid @RequestParam String newUsermobile) {
 		return new ResponseEntity<User>(userServices.updateUsermobile(userName, userPassword, newUsermobile), HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping(value = "/updateUserEmail")
-	public ResponseEntity<User> updateUserEmail(@RequestParam String userName, @RequestParam String userPassword,
-			@RequestParam String newUserEmail) {
+	public ResponseEntity<User> updateUserEmail(@Valid @RequestParam String userName,@Valid  @RequestParam String userPassword,
+			@Valid @RequestParam String newUserEmail) {
 		return new ResponseEntity<User>(userServices.updateUserEmail(userName, userPassword, newUserEmail), HttpStatus.ACCEPTED);
 	}
 	
 	
 	@PutMapping(value = "/updateAddress/{address}")
-	public  ResponseEntity<Address> updateUser(@RequestBody Address address) {
+	public  ResponseEntity<Address> updateUser(@Valid @RequestBody Address address) {
 		return new ResponseEntity<Address>(userServices.updateAddress(address), HttpStatus.ACCEPTED);
 
 	}
 	
 	
 	@PutMapping(value = "/updateLandmark")
-	public ResponseEntity<Address> updateUserEmail(@RequestParam int addressId, @RequestParam String landmark) {
+	public ResponseEntity<Address> updateUserEmail(@Valid @RequestParam int addressId,@Valid  @RequestParam String landmark) {
 		return new ResponseEntity<Address>(userServices.updateLandmark(addressId, landmark), HttpStatus.ACCEPTED);
 	}
 	
 
 
 	@PutMapping(value = "/updateHouseNoAndStreet")
-	public ResponseEntity<Address> updateHouseNoAndStreet(@RequestParam int addressId, @RequestParam String houseNumber, @RequestParam String addressLane1) {
+	public ResponseEntity<Address> updateHouseNoAndStreet(@Valid @RequestParam int addressId,@Valid  @RequestParam String houseNumber,@Valid @RequestParam String addressLane1) {
 		return new ResponseEntity<Address>(userServices.updateHouseNoAndStreet(addressId, houseNumber,addressLane1), HttpStatus.ACCEPTED);
 	}
 	

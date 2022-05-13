@@ -3,6 +3,8 @@ package com.stg.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,10 @@ public class RestaurantController {
 	 *  Restaurant create operations
 	 */
 	
-	@PostMapping(value = "/createRestaurant/{restaurantId}/{restaurantName}/{restaurantPassword}")
-	public  ResponseEntity<Restaurant > createRestaurant(@PathVariable("restaurantId") int restaurantId, @PathVariable("restaurantName") String restaurantName,
-			@PathVariable("restaurantPassword") String restaurantPassword) {
-		Restaurant restaurant= restaurantServices.restaurantSignUp(restaurantId, restaurantName, restaurantPassword);
+	@PostMapping(value = "/createRestaurant/{restaurantId}/{restaurantName}/")
+	public  ResponseEntity<Restaurant > createRestaurant(@PathVariable("restaurantId") int restaurantId,@Valid @PathVariable("restaurantName") String restaurantName
+			  ) {
+		Restaurant restaurant= restaurantServices.restaurantSignUp(restaurantId, restaurantName);
 		return new ResponseEntity<Restaurant >(restaurant, HttpStatus.CREATED);
 
 	}
@@ -45,26 +47,24 @@ public class RestaurantController {
 	 *  Restaurant read operations
 	 */
 
-	@GetMapping(value = "/getRestaurant/{restaurantId}/{restaurantPassword}")
-	public ResponseEntity<Restaurant > readRestaurant(@PathVariable("restaurantId") int restaurantId,
-			@PathVariable("restaurantPassword") String restaurantPassword) {
-		return new ResponseEntity<Restaurant >(restaurantServices.readRestaurant(restaurantId, restaurantPassword), HttpStatus.FOUND);
+	@GetMapping(value = "/getRestaurant/{restaurantId}")
+	public ResponseEntity<Restaurant > readRestaurant(@PathVariable("restaurantId") int restaurantId) {
+		return new ResponseEntity<Restaurant >(restaurantServices.readRestaurant(restaurantId), HttpStatus.FOUND);
 
 	}
 	
 
 
 	@PutMapping(value = "/updateRestaurant/{restaurant}")
-	public ResponseEntity<Restaurant > updateRestaurant(@RequestBody Restaurant restaurant) {
+	public ResponseEntity<Restaurant > updateRestaurant(@Valid @RequestBody Restaurant restaurant) {
 		return new ResponseEntity<Restaurant >( restaurantServices.updateRestaurant(restaurant), HttpStatus.OK);
 
 	}
 
-	@DeleteMapping(value = "/deleteRestaurant/{restaurantId}/{restaurantPassword}")
-	public ResponseEntity<String>  deleteRestaurant(@PathVariable("restaurantId") int restaurantId,
-			@PathVariable("restaurantPassword") String restaurantPassword) {
+	@DeleteMapping(value = "/deleteRestaurant/{restaurantId}")
+	public ResponseEntity<String>  deleteRestaurant(@PathVariable("restaurantId") int restaurantId) {
 
-		return new ResponseEntity<String >(restaurantServices.deleteRestaurant(restaurantId, restaurantPassword), HttpStatus.OK);
+		return new ResponseEntity<String >(restaurantServices.deleteRestaurant(restaurantId), HttpStatus.OK);
 
 	
 	}
@@ -83,7 +83,7 @@ public class RestaurantController {
 	}
 
 	@DeleteMapping(value = "/deleteDish/{dishId}")
-	public ResponseEntity<String> deleteDish(@RequestBody int dishId) {
+	public ResponseEntity<String> deleteDish(@PathVariable int dishId) {
 		return new ResponseEntity<String>(restaurantServices.deleteDish(dishId), HttpStatus.FOUND);
 	}
 

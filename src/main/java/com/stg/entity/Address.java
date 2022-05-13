@@ -25,11 +25,10 @@ public class Address {
 	@Column(name = "addressId", updatable = false, nullable = false)
 	private int addressId;
 	
-	@NotEmpty(message = "Please provide a house number")
+
 	@Column(name = "houseNumber", nullable = false)
 	private String houseNumber;
-	
-	@NotEmpty(message = "Please provide an address lane 1")
+
 	@Column(name = "addressLane1", nullable = false)
 	private String addressLane1;
 	
@@ -37,31 +36,28 @@ public class Address {
 	@Column(name = "addressLane2" ,nullable = false)
 	private String addressLane2;
 	
-	@NotEmpty(message = "Please provide a landmark")
+
 	@Column(name = "landmark", nullable = false)
 	private String landmark;
 	
-	@NotEmpty(message = "Please provide a pincode")
-	@Column(name = "pincode", nullable = false)
+	@Column(name = "pincode", nullable = false ,length = 6)
 	private int pincode;
 	
-	@NotEmpty(message = "Please provide the district name")
 	@Column(name = "district", nullable = false)
 	private String district;
 	
-	@NotEmpty(message = "Please provide the name of the state")
 	@Column(name = "state", nullable = false)
 	private String state;
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "userId", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "userId",referencedColumnName = "userId" )
+	@JsonBackReference(value = "user")
 	private User user;
 	
 	@OneToOne
-	@JoinColumn(name = "restaurantAddress", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "restaurantId",referencedColumnName = "restaurantId")
+	@JsonBackReference(value = "restaurant")
 	private Restaurant restaurant;
 
 	public Address() {
@@ -80,6 +76,35 @@ public class Address {
 		this.district = district;
 		this.state = state;
 		this.user = user;
+	}
+
+	public Address(int addressId, String houseNumber, String addressLane1, String addressLane2, String landmark,
+			int pincode, String district, String state, Restaurant restaurant) {
+		super();
+		this.addressId = addressId;
+		this.houseNumber = houseNumber;
+		this.addressLane1 = addressLane1;
+		this.addressLane2 = addressLane2;
+		this.landmark = landmark;
+		this.pincode = pincode;
+		this.district = district;
+		this.state = state;
+		this.restaurant = restaurant;
+	}
+
+	public Address(int addressId, String houseNumber, String addressLane1, String addressLane2, String landmark,
+			int pincode, String district, String state, User user, Restaurant restaurant) {
+		super();
+		this.addressId = addressId;
+		this.houseNumber = houseNumber;
+		this.addressLane1 = addressLane1;
+		this.addressLane2 = addressLane2;
+		this.landmark = landmark;
+		this.pincode = pincode;
+		this.district = district;
+		this.state = state;
+		this.user = user;
+		this.restaurant = restaurant;
 	}
 
 	public int getAddressId() {
@@ -153,5 +178,14 @@ public class Address {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
 
 }

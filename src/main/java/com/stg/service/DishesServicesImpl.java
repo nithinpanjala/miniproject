@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.stg.entity.Dish;
 import com.stg.entity.Restaurant;
 import com.stg.entity.User;
+import com.stg.entity.Dish.FoodType;
 import com.stg.exceptions.CustomException;
 import com.stg.repository.DishRepository;
 
@@ -26,7 +27,7 @@ public class DishesServicesImpl implements DishesServices {
 
 	@Override
 	public Dish UpdateDish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable,
-			Boolean vegeterianType, Restaurant restaurant) throws CustomException {
+			FoodType vegeterianType, Restaurant restaurant) throws CustomException {
 
 		if (dishRepository.existsById(dishId)) {
 			Dish dish1 = new Dish(dishId, dishName, dishPrice, dishQuantityAvailable, vegeterianType, restaurant);
@@ -39,7 +40,7 @@ public class DishesServicesImpl implements DishesServices {
 
 	@Override
 	public Dish createDish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable,
-			Boolean vegeterianType, Restaurant restaurant) {
+			FoodType vegeterianType, Restaurant restaurant)  throws CustomException {
 		if (dishRepository.existsById(dishId)) {
 			throw new CustomException("dish already exists ");
 	
@@ -52,7 +53,7 @@ public class DishesServicesImpl implements DishesServices {
 	}
 
 	@Override
-	public Dish deleteDish(int dishId) {
+	public Dish deleteDish(int dishId)  throws CustomException {
 		
 		if (dishRepository.existsById(dishId)) {
 			Dish dish = dishRepository.getById(dishId);
@@ -65,7 +66,7 @@ public class DishesServicesImpl implements DishesServices {
 	}
 
 	@Override
-	public Dish updateDishQuantity(int quantity, int dishId) {
+	public Dish updateDishQuantity(int quantity, int dishId)  throws CustomException {
 		
 		if (dishRepository.existsById(dishId)) {
 			Dish dish = dishRepository.getById(dishId);
@@ -80,7 +81,7 @@ public class DishesServicesImpl implements DishesServices {
 	}
 
 	@Override
-	public Dish readDish(int dishId) {
+	public Dish readDish(int dishId)  throws CustomException{
 		
 		if (dishRepository.existsById(dishId)) {
 			return dishRepository.getById(dishId);
@@ -91,7 +92,7 @@ public class DishesServicesImpl implements DishesServices {
 	}
 
 	@Override
-	public List<Dish> readAllDishes() {
+	public List<Dish> readAllDishes() throws CustomException {
 		if(dishRepository.findAll() == null) {
 			throw new CustomException(" no dishes avaiable ");
 		}else {

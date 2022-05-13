@@ -1,19 +1,25 @@
 package com.stg.entity;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "cart")
@@ -23,43 +29,52 @@ public class Cart {
 	@Column(name = "cartNo", updatable = false, nullable = false)
 	private int cartNo;
 
-	@NotEmpty
-	@Column(name = "deliveryCharges", nullable = false)
+
+	@Column(name = "deliveryCharges")
 	private float deliveryCharges;
 
 	// public final
 
-	@NotEmpty
-	@Column(name = "totalPrice", nullable = false)
+	@Column(name = "totalPrice")
 	private float totalPrice;
 
 	@OneToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "user",referencedColumnName = "userId")
+	@JsonBackReference(value = "user")
 	private User user;
-
+	
 	@OneToMany(mappedBy = "cart")
-	Set<DishesInCart> dishesInCart;
+	private Set<CartDishesMapping>  cartDishesMappings;
 
 	public Cart() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cart(int cartNo, @NotEmpty float deliveryCharges, @NotEmpty float totalPrice, User user,
-			Set<DishesInCart> dishesInCart) {
+	public Cart(int cartNo, float deliveryCharges, float totalPrice, User user,
+			Set<CartDishesMapping> cartDishesMappings) {
 		super();
 		this.cartNo = cartNo;
 		this.deliveryCharges = deliveryCharges;
 		this.totalPrice = totalPrice;
 		this.user = user;
-		this.dishesInCart = dishesInCart;
+		this.cartDishesMappings = cartDishesMappings;
 	}
 
-	public Cart(int cartNo, @NotEmpty float deliveryCharges, @NotEmpty float totalPrice, User user) {
+	public Cart(int cartNo) {
 		super();
 		this.cartNo = cartNo;
-		this.deliveryCharges = deliveryCharges;
-		this.totalPrice = totalPrice;
+	}
+
+	public Cart(int cartNo, User user) {
+		super();
+		this.cartNo = cartNo;
+		this.user = user;
+	}
+
+
+	public Cart(User user) {
+		super();
 		this.user = user;
 	}
 
@@ -95,12 +110,13 @@ public class Cart {
 		this.user = user;
 	}
 
-	public Set<DishesInCart> getDishesInCart() {
-		return dishesInCart;
+	public Set<CartDishesMapping> getCartDishesMapping() {
+		return cartDishesMappings;
 	}
 
-	public void setDishesInCart(Set<DishesInCart> dishesInCart) {
-		this.dishesInCart = dishesInCart;
+	public void setCartDishesMapping(Set<CartDishesMapping> cartDishesMappings) {
+		this.cartDishesMappings = cartDishesMappings;
 	}
 
+	
 }

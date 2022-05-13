@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 
 @Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "userName" }) })
+@Table(name = "user")
 public class User {
 
 	@Id
@@ -54,7 +54,7 @@ public class User {
 
 	@NotEmpty(message = "Please provide a usermobile")
 	@Column(name = "usermobile", nullable = false)
-	@Size(min = 10, max = 10, message = "User First Name must be in the range of 3 and 15")
+	@Size(min = 10, max = 10, message = "usermobile must be 10 digits")
 	private String usermobile;
 
 	@NotEmpty(message = "Please provide a userEmail")
@@ -62,7 +62,7 @@ public class User {
 	@Column(name = "userEmail", nullable = false)
 	private String userEmail;
 
-	@JsonManagedReference
+	@JsonManagedReference(value = "user")
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Address> addresses;
 

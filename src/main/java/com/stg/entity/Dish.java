@@ -27,57 +27,47 @@ public class Dish {
 	@Column(name = "dishId", updatable = false, nullable = false)
 	private int dishId;
 	
-	@NotEmpty(message = "Please provide a dish name")
+
 	@Column(name = "dishName", nullable = false)
 	private String dishName;
 	
-	@NotEmpty(message = "Please provide cost of the dish")
+	
 	@Column(name = "dishPrice", nullable = false)
 	private float dishPrice;
 	
-	@NotEmpty(message = "Please provide the dish quantity available ")
+
 	@Column(name = "dishQuantityAvailable", nullable = false)
 	private int dishQuantityAvailable;
 	
-	@NotEmpty(message = "Please enter the type of the dish (veg/ non-veg) ")
-	@Column(name = "isVegeterian", nullable = false)
-	private Boolean isVegeterian;
+
+	@Column(name = "isVegeterian")
+	private FoodType isVegeterian;
+	public enum FoodType {
+	    VEG, NONVEG
+	}
 	
 	//private enum typeOfFood{ veg, nonVeg }
 	
 	@ManyToOne
-	@JoinColumn(name = "restaurantId", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "restaurantId")
+	@JsonBackReference(value = "dishes")
 	private Restaurant restaurant;
 
+	 @OneToMany(mappedBy = "dish")
+	    Set<CartDishesMapping> cartDishesMappings;
 	
 	
-	 public Boolean getIsVegeterian() {
-		return isVegeterian;
+	
+	public Set<CartDishesMapping> getCartDishesMappings() {
+		return cartDishesMappings;
 	}
 
-
-
-	public void setIsVegeterian(Boolean isVegeterian) {
-		this.isVegeterian = isVegeterian;
+	public void setCartDishesMappings(Set<CartDishesMapping> cartDishesMappings) {
+		this.cartDishesMappings = cartDishesMappings;
 	}
 
-
-
-	public Set<DishesInCart> getDishesInCart() {
-		return dishesInCart;
-	}
-
-
-
-	public void setDishesInCart(Set<DishesInCart> dishesInCart) {
-		this.dishesInCart = dishesInCart;
-	}
-
-
-
-	public Dish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable, Boolean isVegeterian,
-			Restaurant restaurant, Set<DishesInCart> dishesInCart) {
+	public Dish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable, FoodType isVegeterian,
+			Restaurant restaurant, Set<CartDishesMapping> cartDishesMappings) {
 		super();
 		this.dishId = dishId;
 		this.dishName = dishName;
@@ -85,12 +75,18 @@ public class Dish {
 		this.dishQuantityAvailable = dishQuantityAvailable;
 		this.isVegeterian = isVegeterian;
 		this.restaurant = restaurant;
-		this.dishesInCart = dishesInCart;
+		this.cartDishesMappings = cartDishesMappings;
 	}
 
+	public Dish() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-
-	public Dish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable, Boolean isVegeterian,
+	public Dish(int dishId, @NotEmpty(message = "Please provide a dish name") String dishName,
+			@NotEmpty(message = "Please provide cost of the dish") float dishPrice,
+			@NotEmpty(message = "Please provide the dish quantity available ") int dishQuantityAvailable,
+			@NotEmpty(message = "Please enter the type of the dish (veg/ non-veg) ") FoodType isVegeterian,
 			Restaurant restaurant) {
 		super();
 		this.dishId = dishId;
@@ -100,27 +96,6 @@ public class Dish {
 		this.isVegeterian = isVegeterian;
 		this.restaurant = restaurant;
 	}
-
-
-
-	public Dish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable, Boolean isVegeterian) {
-		super();
-		this.dishId = dishId;
-		this.dishName = dishName;
-		this.dishPrice = dishPrice;
-		this.dishQuantityAvailable = dishQuantityAvailable;
-		this.isVegeterian = isVegeterian;
-	}
-
-	@OneToMany(mappedBy = "dish")
-	    Set<DishesInCart> dishesInCart;
-	
-
-	public Dish() {
-		super();
-	}
-
-
 
 	public int getDishId() {
 		return dishId;
@@ -154,6 +129,14 @@ public class Dish {
 		this.dishQuantityAvailable = dishQuantityAvailable;
 	}
 
+	public FoodType getIsVegeterian() {
+		return isVegeterian;
+	}
+
+	public void setIsVegeterian(FoodType isVegeterian) {
+		this.isVegeterian = isVegeterian;
+	}
+
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
@@ -162,4 +145,5 @@ public class Dish {
 		this.restaurant = restaurant;
 	}
 
+	
 }

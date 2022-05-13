@@ -5,16 +5,17 @@ import java.util.Set;
 
 import com.stg.entity.Dish;
 import com.stg.entity.Restaurant;
+import com.stg.entity.Dish.FoodType;
 
 public interface DishesServices {
 
 	public Set<Dish> addDishes(Dish dish);
 
 	public Dish UpdateDish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable,
-			Boolean vegeterianType, Restaurant restaurant);
+			FoodType vegeterianType, Restaurant restaurant);
 
 	public Dish createDish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable,
-			Boolean vegeterianType, Restaurant restaurant);
+			FoodType vegeterianType, Restaurant restaurant);
 
 	public Dish deleteDish(int dishId);
 

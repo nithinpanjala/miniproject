@@ -16,6 +16,8 @@ public interface UserServices {
 	 */
 	public User userSignUp(User user) throws CustomException;
 	public User addAddress(Address address) throws CustomException;
+	public User  addUserAddress( String houseNumber, String addressLane1, String addressLane2, String landmark,
+			int pincode, String district, String state, long userId) throws CustomException;
 	/*
 	 * *************************************************************************
 	 * read operations
@@ -51,7 +53,7 @@ public interface UserServices {
 	public String deleteByUserNameAndUserPassword(String userName, String userPassword) throws CustomException;
 
 	
-	public String deleteAddress(Address address) throws CustomException; // delete
+	public String deleteAddressByUserId(long userId, String userPassword) throws CustomException; // delete
 	public String deleteAddressByID(int addressId) throws CustomException; // delete
 	
 	

@@ -136,15 +136,37 @@ public class UserServicesImpl implements UserServices {
 
 	@Override
 	public String deleteByUserIdAndUserPassword(long userId, String userPassword) throws CustomException  {
-		userRepository.findByUserIdAndUserPassword(userId, userPassword).orElseThrow(() -> new CustomException("Invalid User ID and password"));
-		return userId + " deleted";
+		if(userRepository.findByUserIdAndUserPassword(userId,userPassword).isEmpty()) {
+			throw new CustomException("no User Found with the Id :"+ userId);
+			
+		}else {
+			List<Address> addresses = getAllAddress(userId);
+			for (Address address : addresses) {
+				addressRepository.deleteById(address.getAddressId());
+			}
+			userRepository.deleteById(userId);
+			return "User "+ userId + " deleted";
+		}
+		
+		
+		
 	}
 
 	@Override
 	public String deleteByUserNameAndUserPassword(String userName, String userPassword) throws CustomException  {
-		userRepository.findByUserNameAndUserPassword(userName, userPassword).orElseThrow(() -> new CustomException("Invalid User name and password"));
-		userRepository.deleteByUserNameAndUserPassword(userName, userPassword);
-		return userName + " deleted";
+		if(userRepository.findByUserNameAndUserPassword(userName, userPassword).isEmpty()) {
+			throw new CustomException("no address with that Id found");
+			
+		}else {
+			
+			List<Address> addresses = getAllAddress(userRepository.findByUserNameAndUserPassword(userName, userPassword).get().getUserId());
+			for (Address address : addresses) {
+				addressRepository.deleteById(address.getAddressId());
+			}
+			userRepository.deleteById(userRepository.findByUserNameAndUserPassword(userName, userPassword).get().getUserId());
+			return "User "+ userName + " deleted";
+
+		}
 	}
 
 	@Override
@@ -170,13 +192,17 @@ public class UserServicesImpl implements UserServices {
 	}
 	
 	@Override
-	public String deleteAddress(Address address) throws CustomException{
+	public String deleteAddressByUserId(long userId , String userPassword) throws CustomException{
 		// delete
-		if(addressRepository.existsById(address.getAddressId())) {
-			 addressRepository.delete(address);
-			 return "The selected address is deleted";
+		if(userRepository.findByUserIdAndUserPassword(userId,userPassword).isEmpty()) {
+			throw new CustomException("no User Found with the Id :"+ userId);
+			
 		}else {
-			throw new CustomException("no address with that Id found");
+			List<Address> addresses = getAllAddress(userId);
+			for (Address address : addresses) {
+				addressRepository.deleteById(address.getAddressId());
+			}
+			return "All the addresses of the User "+ userId + " are deleted";
 		}
 	}
 	
@@ -188,6 +214,30 @@ public class UserServicesImpl implements UserServices {
 		}else {
 			throw new CustomException("no address with that Id found");
 		}
+	}
+	
+	@Override
+	public User  addUserAddress( String houseNumber, String addressLane1, String addressLane2, String landmark,
+			int pincode, String district, String state, long userId) throws CustomException{
+
+		if (userRepository.findById(userId).isPresent()) {
+			Address address = new Address();
+			address.setHouseNumber(houseNumber);
+			address.setAddressLane1(addressLane1);
+			address.setAddressLane2(addressLane2);
+			address.setLandmark(landmark);
+			address.setPincode(pincode);
+			address.setDistrict(district);
+			address.setState(state);
+			address.setUser(userRepository.getById(userId));
+			addressRepository.save(address);
+			return userRepository.findById(userId).get();
+
+		} else {
+			throw new CustomException("no user found");
+		}
+		
+		
 	}
 
 
