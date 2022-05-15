@@ -44,9 +44,9 @@ public class CartController {
 
 	}
 	
-	@PostMapping(value = "/addDish/{cartNo}/{dishId}/{quantity}")
-	public ResponseEntity<Cart> addDish(@RequestParam int cartNo, @RequestParam int dishId, @RequestParam int quantity) {
-		return new ResponseEntity<Cart>(cartServices.addDish(cartNo, dishId, quantity), HttpStatus.ACCEPTED);
+	@PostMapping(value = "/addDish/{cartNo}/{dishId}")
+	public ResponseEntity<Cart> addDish(@RequestParam int cartNo, @RequestParam int dishId) {
+		return new ResponseEntity<Cart>(cartServices.addDish(cartNo, dishId), HttpStatus.ACCEPTED);
 
 	}
 	
@@ -56,12 +56,6 @@ public class CartController {
 	}
 
 
-	@PutMapping(value = "/updateDishQuantity/{cartNo}/{dishId}/{quantity}")
-	public ResponseEntity<Cart> updateDishQuantity(@RequestParam int cartNo, @RequestParam int dishId, @RequestParam int quantity) {
-
-		return new ResponseEntity<Cart>(cartServices.updateDishQuantity(cartNo, dishId, quantity), HttpStatus.ACCEPTED);
-
-	}
 	@GetMapping(value = "/getTotalPrice/{cartNo}")
 	public ResponseEntity<String> getTotalPrice(@RequestParam int cartNo) {
 		return new ResponseEntity<String>(cartServices.getTotalPrice(cartNo), HttpStatus.ACCEPTED);

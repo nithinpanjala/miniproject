@@ -7,11 +7,10 @@ public interface CartServices {
 	
 	public Cart createCart(long userId);
 
-	public Cart addDish(int cartNo, int dishId, int quantity);
+	public Cart addDish(int cartNo, int dishId);
 
 	public String removeDish(int cartNo,  int dishId);
 
-	public Cart updateDishQuantity(int cartNo, int dishId, int quantity);
 
 	public String getTotalPrice(int cartNo);
 

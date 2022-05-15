@@ -3,6 +3,7 @@ package com.stg.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,43 +22,39 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Address {
 
 	@Id
-	@GeneratedValue(generator = "addressId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "addressId", updatable = false, nullable = false)
 	private int addressId;
-	
 
 	@Column(name = "houseNumber", nullable = false)
 	private String houseNumber;
 
 	@Column(name = "addressLane1", nullable = false)
 	private String addressLane1;
-	
-	
-	@Column(name = "addressLane2" ,nullable = false)
+
+	@Column(name = "addressLane2", nullable = false)
 	private String addressLane2;
-	
 
 	@Column(name = "landmark", nullable = false)
 	private String landmark;
-	
-	@Column(name = "pincode", nullable = false ,length = 6)
+
+	@Column(name = "pincode", nullable = false, length = 6)
 	private int pincode;
-	
+
 	@Column(name = "district", nullable = false)
 	private String district;
-	
+
 	@Column(name = "state", nullable = false)
 	private String state;
-	
-	
-	@ManyToOne
-	@JoinColumn(name = "userId",referencedColumnName = "userId" )
+
 	@JsonBackReference(value = "user")
+	@ManyToOne
+	@JoinColumn(name = "userId", referencedColumnName = "userId")
 	private User user;
-	
-	@OneToOne
-	@JoinColumn(name = "restaurantId",referencedColumnName = "restaurantId")
+
 	@JsonBackReference(value = "restaurant")
+	@OneToOne
+	@JoinColumn(name = "restaurantId", referencedColumnName = "restaurantId")
 	private Restaurant restaurant;
 
 	public Address() {
@@ -186,6 +183,5 @@ public class Address {
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
-
 
 }

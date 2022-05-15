@@ -1,13 +1,17 @@
 package com.stg.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,51 +27,38 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "dish")
 public class Dish {
 	@Id
-	@GeneratedValue(generator = "dishId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "dishId", updatable = false, nullable = false)
 	private int dishId;
-	
 
 	@Column(name = "dishName", nullable = false)
 	private String dishName;
-	
-	
+
 	@Column(name = "dishPrice", nullable = false)
 	private float dishPrice;
-	
 
 	@Column(name = "dishQuantityAvailable", nullable = false)
 	private int dishQuantityAvailable;
-	
 
 	@Column(name = "isVegeterian")
 	private FoodType isVegeterian;
+
 	public enum FoodType {
-	    VEG, NONVEG
+		VEG, NONVEG
 	}
-	
-	//private enum typeOfFood{ veg, nonVeg }
-	
+
+	// private enum typeOfFood{ veg, nonVeg }
+
 	@ManyToOne
 	@JoinColumn(name = "restaurantId")
 	@JsonBackReference(value = "dishes")
 	private Restaurant restaurant;
 
-	 @OneToMany(mappedBy = "dish")
-	    Set<CartDishesMapping> cartDishesMappings;
-	
-	
-	
-	public Set<CartDishesMapping> getCartDishesMappings() {
-		return cartDishesMappings;
-	}
-
-	public void setCartDishesMappings(Set<CartDishesMapping> cartDishesMappings) {
-		this.cartDishesMappings = cartDishesMappings;
-	}
+	@ManyToMany(mappedBy = "dishes")
+	private List<Cart> carts = new ArrayList<Cart>();
 
 	public Dish(int dishId, String dishName, float dishPrice, int dishQuantityAvailable, FoodType isVegeterian,
-			Restaurant restaurant, Set<CartDishesMapping> cartDishesMappings) {
+			Restaurant restaurant, List<Cart> carts) {
 		super();
 		this.dishId = dishId;
 		this.dishName = dishName;
@@ -75,17 +66,20 @@ public class Dish {
 		this.dishQuantityAvailable = dishQuantityAvailable;
 		this.isVegeterian = isVegeterian;
 		this.restaurant = restaurant;
-		this.cartDishesMappings = cartDishesMappings;
+		this.carts = carts;
 	}
 
 	public Dish() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Dish(int dishId, @NotEmpty(message = "Please provide a dish name") String dishName,
+
 			@NotEmpty(message = "Please provide cost of the dish") float dishPrice,
+
 			@NotEmpty(message = "Please provide the dish quantity available ") int dishQuantityAvailable,
+
 			@NotEmpty(message = "Please enter the type of the dish (veg/ non-veg) ") FoodType isVegeterian,
 			Restaurant restaurant) {
 		super();
@@ -145,5 +139,12 @@ public class Dish {
 		this.restaurant = restaurant;
 	}
 
-	
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+
 }

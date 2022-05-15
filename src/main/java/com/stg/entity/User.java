@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 public class User {
 
 	@Id
-	@GeneratedValue(generator = "userId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "userId", updatable = false, nullable = false)
 	private long userId;
 

@@ -6,4 +6,5 @@ import com.stg.entity.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
+	
 }
