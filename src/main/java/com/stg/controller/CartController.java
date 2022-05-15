@@ -45,8 +45,8 @@ public class CartController {
 	}
 	
 	@PostMapping(value = "/addDish/{cartNo}/{dishId}")
-	public ResponseEntity<Cart> addDish(@RequestParam int cartNo, @RequestParam int dishId) {
-		return new ResponseEntity<Cart>(cartServices.addDish(cartNo, dishId), HttpStatus.ACCEPTED);
+	public ResponseEntity<String> addDish(@RequestParam int cartNo, @RequestParam int dishId) {
+		return new ResponseEntity<String>(cartServices.addDish(cartNo, dishId), HttpStatus.ACCEPTED);
 
 	}
 	

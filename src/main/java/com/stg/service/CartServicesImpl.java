@@ -36,12 +36,15 @@ public class CartServicesImpl implements CartServices {
 	}
 
 	@Override
-	public Cart addDish(int cartNo, int dishId) {
+	public String addDish(int cartNo, int dishId) {
 		Cart cart = cartRepository.findById(cartNo).get();
 		Dish dish = dishRepository.findById(dishId).get();
 		dish.getCarts().add(cart);
 		cart.getDishes().add(dish);
-		return cartRepository.save(cart);	
+		//dishRepository.save(dish);
+		//return cartRepository.save(cart);
+		//return cart;
+		return dishId + "added to "+ cartNo;
 
 	}
 
@@ -53,8 +56,8 @@ public class CartServicesImpl implements CartServices {
 		 * dish.getCart().setCartNo(cartNo);
 		 */
 		  List<Dish> list = cart.getDishes();
-		  list.remove(dishRepository.findById(dishId).get()); cart.setDishes(list);
-		 
+		  list.remove(dishRepository.findById(dishId).get()); 
+		  cart.setDishes(list);
 	    cartRepository.save(cart);	
 		return "Selected Dish Removed";
 	}
