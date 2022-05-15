@@ -1,9 +1,6 @@
 package com.stg.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,6 +92,12 @@ Cart cart = cartRepository.findById(cartNo).get();
 
 	public Cart getCart(int cartNo) {
 		return cartRepository.findById(cartNo).get();
+	}
+
+	@Override
+	public String removeCart(int cartNo) {
+		cartRepository.deleteById(cartNo);
+		return "cart "+cartNo +" deleted";
 	}
 
 }

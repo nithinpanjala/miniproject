@@ -16,5 +16,7 @@ public interface CartServices {
 
 	public String PlaceOrder(int cartNo);
 	public Cart getCart(int cartNo);
+	
+	public String removeCart(int cartNo);
 
 }

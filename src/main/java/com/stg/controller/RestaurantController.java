@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stg.entity.Address;
 import com.stg.entity.Dish;
 import com.stg.entity.Restaurant;
+import com.stg.entity.User;
 import com.stg.service.RestaurantServices;
 
 @RestController
@@ -38,6 +40,22 @@ public class RestaurantController {
 			  ) {
 		Restaurant restaurant= restaurantServices.restaurantSignUp(restaurantId, restaurantName);
 		return new ResponseEntity<Restaurant >(restaurant, HttpStatus.CREATED);
+
+	}
+	
+	
+	@PostMapping(value = "/addAddress/{address}")
+	public ResponseEntity<Restaurant> addAddress(@Valid @RequestBody Address address) {
+
+		return new ResponseEntity<Restaurant>(restaurantServices.addAddress(address), HttpStatus.ACCEPTED);
+
+	}
+	@PostMapping(value = "/addUserAddress")
+	public ResponseEntity<Restaurant> addUserAddress( @RequestParam String houseNumber, @RequestParam String addressLane1,@RequestParam String addressLane2, @RequestParam String landmark,
+			 @RequestParam int pincode, @RequestParam String district, @RequestParam String state, @RequestParam int restaurantId) {
+
+		return new ResponseEntity<Restaurant>(restaurantServices.addRestaurantAddress(   houseNumber,  addressLane1,  addressLane2,  landmark,
+				 pincode,  district,  state,  restaurantId), HttpStatus.ACCEPTED);
 
 	}
 

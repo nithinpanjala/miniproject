@@ -72,5 +72,10 @@ public class CartController {
 		return new ResponseEntity<Cart>(cartServices.getCart(cartNo), HttpStatus.ACCEPTED);
  
 	}
+	
+	@DeleteMapping(value = "/deletecartbyId/{cartNo}")
+	public ResponseEntity<String> removeCart(@RequestParam int cartNo) {
+		return new ResponseEntity<String>(cartServices.removeCart(cartNo), HttpStatus.ACCEPTED);
+	}
 
 }
